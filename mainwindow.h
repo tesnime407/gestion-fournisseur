@@ -3,10 +3,39 @@
 #include "fournisseur.h"
 #include "connection.h"
 #include <QMainWindow>
+#include <QMainWindow>
+#include <QSqlQueryModel>
+#include <QChartView>
+#include <QPieSeries>
+#include <QPieSlice>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QtCharts/QPieSlice>
+#include <QLayout>
+#include <QLayoutItem>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QChart>
+#include <QtCharts/QChartView>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QStackedWidget>
+#include <QRandomGenerator>
+#include <QSqlQueryModel>  // Ajoutez cette ligne pour utiliser QSqlQueryModel
+#include <QSqlQuery>
+#include <QChart>
+#include <QChartView>
+#include <QBarSeries>
+#include <QBarSet>
+#include <QBarCategoryAxis>
+#include <QValueAxis>
+#include <QGraphicsProxyWidget>
+#include <QGraphicsScene>
+#include <QSqlRecord>
 
-QT_BEGIN_NAMESPACE
+
+
 namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -17,11 +46,20 @@ public:
 private slots:
     void on_pushButton_ajouter_clicked();
     void on_pushButton_supprimer_clicked();
-    void on_pushButton_2_clicked();
+    void on_pb_pdf_clicked();
+    void on_pushButton_10_clicked();
+    void on_pushButton_trier_clicked();
+    void on_calculerDurabilite_clicked();
+    float calculerDurabilite(float materiauxRecycles, float empreinteCarbone);
+    bool chargerFournisseurParId(int id);  // Récupère les données du fournisseur par son ID
+    void on_pushButton_stats_clicked();
+
 
 private:
     Ui::MainWindow *ui;
     fournisseur Etmp;
+
+
 };
 
 #endif // MAINWINDOW_H

@@ -42,16 +42,34 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "on_pushButton_ajouter_clicked",
     "",
     "on_pushButton_supprimer_clicked",
-    "on_pushButton_2_clicked"
+    "on_pb_pdf_clicked",
+    "on_pushButton_10_clicked",
+    "on_pushButton_trier_clicked",
+    "on_calculerDurabilite_clicked",
+    "calculerDurabilite",
+    "materiauxRecycles",
+    "empreinteCarbone",
+    "chargerFournisseurParId",
+    "id",
+    "on_pushButton_stats_clicked"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
-    uint offsetsAndSizes[10];
+    uint offsetsAndSizes[28];
     char stringdata0[11];
     char stringdata1[30];
     char stringdata2[1];
     char stringdata3[32];
-    char stringdata4[24];
+    char stringdata4[18];
+    char stringdata5[25];
+    char stringdata6[28];
+    char stringdata7[30];
+    char stringdata8[19];
+    char stringdata9[18];
+    char stringdata10[17];
+    char stringdata11[24];
+    char stringdata12[3];
+    char stringdata13[28];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSMainWindowENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -61,13 +79,31 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
         QT_MOC_LITERAL(11, 29),  // "on_pushButton_ajouter_clicked"
         QT_MOC_LITERAL(41, 0),  // ""
         QT_MOC_LITERAL(42, 31),  // "on_pushButton_supprimer_clicked"
-        QT_MOC_LITERAL(74, 23)   // "on_pushButton_2_clicked"
+        QT_MOC_LITERAL(74, 17),  // "on_pb_pdf_clicked"
+        QT_MOC_LITERAL(92, 24),  // "on_pushButton_10_clicked"
+        QT_MOC_LITERAL(117, 27),  // "on_pushButton_trier_clicked"
+        QT_MOC_LITERAL(145, 29),  // "on_calculerDurabilite_clicked"
+        QT_MOC_LITERAL(175, 18),  // "calculerDurabilite"
+        QT_MOC_LITERAL(194, 17),  // "materiauxRecycles"
+        QT_MOC_LITERAL(212, 16),  // "empreinteCarbone"
+        QT_MOC_LITERAL(229, 23),  // "chargerFournisseurParId"
+        QT_MOC_LITERAL(253, 2),  // "id"
+        QT_MOC_LITERAL(256, 27)   // "on_pushButton_stats_clicked"
     },
     "MainWindow",
     "on_pushButton_ajouter_clicked",
     "",
     "on_pushButton_supprimer_clicked",
-    "on_pushButton_2_clicked"
+    "on_pb_pdf_clicked",
+    "on_pushButton_10_clicked",
+    "on_pushButton_trier_clicked",
+    "on_calculerDurabilite_clicked",
+    "calculerDurabilite",
+    "materiauxRecycles",
+    "empreinteCarbone",
+    "chargerFournisseurParId",
+    "id",
+    "on_pushButton_stats_clicked"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -79,7 +115,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -87,13 +123,25 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   32,    2, 0x08,    1 /* Private */,
-       3,    0,   33,    2, 0x08,    2 /* Private */,
-       4,    0,   34,    2, 0x08,    3 /* Private */,
+       1,    0,   68,    2, 0x08,    1 /* Private */,
+       3,    0,   69,    2, 0x08,    2 /* Private */,
+       4,    0,   70,    2, 0x08,    3 /* Private */,
+       5,    0,   71,    2, 0x08,    4 /* Private */,
+       6,    0,   72,    2, 0x08,    5 /* Private */,
+       7,    0,   73,    2, 0x08,    6 /* Private */,
+       8,    2,   74,    2, 0x08,    7 /* Private */,
+      11,    1,   79,    2, 0x08,   10 /* Private */,
+      13,    0,   82,    2, 0x08,   12 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Float, QMetaType::Float, QMetaType::Float,    9,   10,
+    QMetaType::Bool, QMetaType::Int,   12,
     QMetaType::Void,
 
        0        // eod
@@ -112,7 +160,22 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButton_supprimer_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_pushButton_2_clicked'
+        // method 'on_pb_pdf_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_pushButton_10_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_pushButton_trier_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_calculerDurabilite_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'calculerDurabilite'
+        QtPrivate::TypeAndForceComplete<float, std::false_type>,
+        QtPrivate::TypeAndForceComplete<float, std::false_type>,
+        QtPrivate::TypeAndForceComplete<float, std::false_type>,
+        // method 'chargerFournisseurParId'
+        QtPrivate::TypeAndForceComplete<bool, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'on_pushButton_stats_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -126,11 +189,18 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->on_pushButton_ajouter_clicked(); break;
         case 1: _t->on_pushButton_supprimer_clicked(); break;
-        case 2: _t->on_pushButton_2_clicked(); break;
+        case 2: _t->on_pb_pdf_clicked(); break;
+        case 3: _t->on_pushButton_10_clicked(); break;
+        case 4: _t->on_pushButton_trier_clicked(); break;
+        case 5: _t->on_calculerDurabilite_clicked(); break;
+        case 6: { float _r = _t->calculerDurabilite((*reinterpret_cast< std::add_pointer_t<float>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<float>>(_a[2])));
+            if (_a[0]) *reinterpret_cast< float*>(_a[0]) = std::move(_r); }  break;
+        case 7: { bool _r = _t->chargerFournisseurParId((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
+        case 8: _t->on_pushButton_stats_clicked(); break;
         default: ;
         }
     }
-    (void)_a;
 }
 
 const QMetaObject *MainWindow::metaObject() const
@@ -152,13 +222,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 9)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 3;
+        _id -= 9;
     }
     return _id;
 }

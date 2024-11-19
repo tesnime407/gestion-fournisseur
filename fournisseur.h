@@ -1,42 +1,58 @@
 #ifndef FOURNISSEUR_H
 #define FOURNISSEUR_H
-#include <QDate>
 #include <QString>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QPdfWriter>
+#include <QPainter>
 
 class fournisseur
 {
-    int id;
-    QString nom;
-    int telephone;
-    QString produitfournis;
-    QDate datecollaboration;
-    QString adresse;
-
-
 
 public:
     fournisseur();
-    fournisseur(int, QString,int, QString,QDate,QString);
+    fournisseur(int id, QString nom ,QString telephone, QString produitfournis,QString datecollaboration,QString adresse,float materiauxRecycles, float empreinteCarbone);
 
-    int getID() { return id; }
-    QString getNom() { return nom; }
-    int getTelephone() { return telephone; }
-    QString getProduitfournis() { return produitfournis; }
-    QDate getDatecollaboration() { return datecollaboration; }
-    QString getAdresse() { return adresse; }
+    int getID() const;
+    QString getNom() const;
+    QString getTelephone() const;
+    QString getProduitfournis() const;
+    QString getDatecollaboration() const;
+    QString getAdresse() const;
+    float getMateriauxRecycles() const;
+    float getEmpreinteCarbone() const;
 
-    void setID(int id) { this->id = id; }
-    void setNom(QString nom) { nom = nom; }
-    void setTelephone(int telephone) { telephone= telephone; }
-    void setProduitfournis(QString produit) { produitfournis = produit; }
-    void setDatecollaboration(QDate date) { datecollaboration = date; }
-    void setAdresse(QString adresse) { adresse = adresse; }
+    void setID(int id);
+    void setNom(const QString &nom);
+    void setTelephone(const QString &telephone);
+    void setProduitfournis(const QString &produitfournis);
+    void setDatecollaboration(const QString &datecollaboration);
+    void setAdresse(const QString &adresse);
+    void setMateriauxRecycles(float materiauxRecycles);
+    void setEmpreinteCarbone(float empreinteCarbone);
+
 
     bool ajouter();
     QSqlQueryModel * afficher();
-    bool supprimer(int);
+    bool supprimer(int id);
+    bool exporterPDF(const QString &nomFichier, QAbstractItemModel *model);
+    bool chercherParID(int id);
+    QSqlQueryModel* trierParID(bool asc);
+    bool chargerFournisseurParId(int id);  // Récupère les données du fournisseur par son ID
+    float calculerDurabilite() const;
+    QMap<QString, int> statistiquesFournisseur();
+
+
+
+private:
+    int id;
+    QString nom;
+    QString telephone;
+    QString produitfournis;
+    QString datecollaboration;
+    QString adresse;
+    float materiauxRecycles; // Pourcentage de matériaux recyclés
+    float empreinteCarbone;  // Empreinte carbone en CO2
 };
 
 #endif // FOURNISSEUR_H
