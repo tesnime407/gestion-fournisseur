@@ -1,4 +1,8 @@
 #include "connection.h"
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QDebug>
+
 Connection::Connection(){}
 bool Connection::createconnection()
 {

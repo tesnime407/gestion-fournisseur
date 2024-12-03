@@ -31,6 +31,7 @@
 #include <QGraphicsProxyWidget>
 #include <QGraphicsScene>
 #include <QSqlRecord>
+#include "arduino.h"  // Inclure le fichier d'en-tête Arduino
 
 
 
@@ -53,11 +54,14 @@ private slots:
     float calculerDurabilite(float materiauxRecycles, float empreinteCarbone);
     bool chargerFournisseurParId(int id);  // Récupère les données du fournisseur par son ID
     void on_pushButton_stats_clicked();
+    void onRfidUIDReceived(const QString &uid);  // Déclaration de la méthode
 
 
 private:
     Ui::MainWindow *ui;
     fournisseur Etmp;
+    Arduino *arduino;  // Déclaration de l'objet Arduino
+
 
 
 };

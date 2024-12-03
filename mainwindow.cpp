@@ -1,11 +1,14 @@
 #include "mainwindow.h"
+#include"fournisseur.h"
 #include "ui_mainwindow.h"
+#include "arduino.h"
 #include <QDebug>
 #include <QMessageBox>
 #include <QtPrintSupport/QPrinter>
 #include <QFileDialog>
 #include <QPdfWriter>
 #include <QPainter>
+
 #include <QChartView>
 #include <QPieSeries>
 #include <QPieSlice>
@@ -17,18 +20,14 @@
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
+
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QStackedWidget>
 #include <QRandomGenerator>
 #include <QSqlQueryModel>  // Ajoutez cette ligne pour utiliser QSqlQueryModel
-#include <QSqlQuery>
 #include <QChart>
-#include <QChartView>
-#include <QBarSeries>
-#include <QBarSet>
-#include <QBarCategoryAxis>
-#include <QValueAxis>
+
 #include <QGraphicsProxyWidget>
 #include <QGraphicsScene>
 #include <QSqlRecord>
@@ -43,17 +42,25 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     // Mettre le QLabel en arrière-plan
-    ui->label_9->lower(); // Assure que le QLabel est sous le QTableView
+    ui->label_2->lower(); // Assure que le QLabel est sous le QTableView
 
     // Remplir l'image
-    ui->label_9->setScaledContents(true); // Optionnel : pour redimensionner l'image à la taille du QLabel
+    ui->label_2->setScaledContents(true); // Optionnel : pour redimensionner l'image à la taille du QLabel
     // Rafraîchir l'interface pour forcer l'affichage de l'image
-    ui->label_9->update();
+    ui->label_2->update();
     ui->tableView->setModel(Etmp.afficher()); // Afficher les fournisseur dans le tableau
     //pour les pdf
     connect(ui->calculerButton, &QPushButton::clicked, this, &MainWindow::on_calculerDurabilite_clicked);
 
 
+    // Créer l'objet Arduino
+    arduino = new Arduino(this);
+
+    // Connecter le signal émis par Arduino à un slot dans MainWindow
+    connect(arduino, &Arduino::rfidUIDReceived, this, &MainWindow::onRfidUIDReceived);
+
+    // Configurer le port série (remplace "COM3" par le port correct)
+    arduino->setupSerialPort("COM3");
 
 
 
@@ -108,15 +115,27 @@ void MainWindow::on_pushButton_supprimer_clicked()
     }
 }
 
-void MainWindow::on_pushButton_10_clicked()
-{
+void MainWindow::on_pushButton_10_clicked() {
     int id = ui->lineEdit_recherche->text().toInt();
-    fournisseur etmp;
+    fournisseur etmp, result;
 
-    if (etmp.chercherParID(id)) {
-        QMessageBox::information(this, "Search Result", "fournisseur with ID " + QString::number(id) + " exists.");
+    if (etmp.chercherParID(id, result)) {
+        QMessageBox::information(this, "Search Result", "Fournisseur with ID " + QString::number(id) + " exists.");
+
+        // Mettre à jour le tableau pour n'afficher que le fournisseur trouvé
+        QSqlQueryModel *model = new QSqlQueryModel();
+        QSqlQuery query;
+        query.prepare("SELECT * FROM FOURNISSEURS WHERE ID = :id");
+        query.bindValue(":id", id);
+        query.exec();
+        model->setQuery(std::move(query));
+
+        ui->tableView->setModel(model);  // Affichage dans le tableau
     } else {
-        QMessageBox::information(this, "Search Result", "fournisseur with ID " + QString::number(id) + " does not exist.");
+        QMessageBox::information(this, "Search Result", "Fournisseur with ID " + QString::number(id) + " does not exist.");
+
+        // Optionnel : Vider ou réinitialiser le tableau en cas de non-trouvaille
+        ui->tableView->setModel(nullptr);
     }
 }
 
@@ -174,29 +193,6 @@ float MainWindow::calculerDurabilite(float materiauxRecycles, float empreinteCar
     float durabilite = (materiauxRecycles * 0.5) - (empreinteCarbone * 0.5);
     return durabilite;
 }
-void MainWindow::on_calculerDurabilite_clicked() {
-    bool ok;
-
-    int fournisseurId = ui->fournisseurIdLineEdit->text().toInt(&ok);  // Assume 'fournisseurIdLineEdit' est un champ de texte dans l'UI
-
-    bool fournisseurExist = Etmp.chargerFournisseurParId(fournisseurId);
-    if (!ok) {
-        // Si l'ID n'est pas valide, afficher un message d'erreur
-        ui->resultLabel->setText("ID invalide");
-        return;
-    }
-
-    if (fournisseurExist) {
-        // Appel à la méthode calculerDurabilite sur l'objet fournisseur
-        float durabilite = Etmp.calculerDurabilite();
-
-        // Affichage du résultat dans le QLabel
-        ui->resultLabel->setText(QString("Durabilité: %1").arg(durabilite));
-    } else {
-        // Si le fournisseur n'est pas trouvé
-        ui->resultLabel->setText("Fournisseur introuvable");
-    }
-}
 // Méthode pour charger un fournisseur par son ID
 bool MainWindow::chargerFournisseurParId(int id) {
     // Recherche basique de l'ID du fournisseur
@@ -211,6 +207,27 @@ bool MainWindow::chargerFournisseurParId(int id) {
     // Si aucun fournisseur n'est trouvé
     return false;
 }
+void MainWindow::on_calculerDurabilite_clicked() {
+    bool ok;
+    int fournisseurId = ui->fournisseurIdLineEdit->text().toInt(&ok);
+
+    if (!ok) {
+        ui->resultLabel->setText("ID invalide");
+        return;
+    }
+
+    if (Etmp.chargerFournisseurParId(fournisseurId)) {
+        if (Etmp.estDurable()) {
+            ui->resultLabel->setText("Fournisseur durable avec un score de " + QString::number(Etmp.calculerDurabilite(), 'f', 2) + "%");
+        } else {
+            ui->resultLabel->setText("Fournisseur non durable. Score : " + QString::number(Etmp.calculerDurabilite(), 'f', 2) + "%");
+        }
+    } else {
+        ui->resultLabel->setText("Fournisseur introuvable");
+    }
+}
+
+
 void MainWindow::on_pushButton_stats_clicked(){
     // Créez une instance de fournisseur (ou utilisez une instance existante)
     fournisseur fournisseurInstance;
@@ -283,6 +300,13 @@ void MainWindow::on_pushButton_stats_clicked(){
     qDebug() << "Statistiques mises à jour et graphique actualisé.";
 }
 
+void MainWindow::onRfidUIDReceived(const QString &uid)
+{
+    qDebug() << "UID reçu dans MainWindow: " << uid;
+
+    // Afficher l'UID dans un label sur l'interface utilisateur
+    ui->label_fournisseur->setText("UID reçu : " + uid);
+}
 
 
 

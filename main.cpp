@@ -2,6 +2,8 @@
 #include <QApplication>
 #include <QMessageBox>
 #include "connection.h"
+#include <QSerialPortInfo>
+#include <QDebug>
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -20,4 +22,13 @@ int main(int argc, char *argv[])
                           QObject::tr("connection failed.\n"
                                       "Click Cancel to exit."), QMessageBox::Cancel);
     return a.exec();
+}
+
+
+void listAvailablePorts() {
+    foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
+        qDebug() << "Nom du port:" << info.portName();
+        qDebug() << "Description:" << info.description();
+        qDebug() << "Fabricant:" << info.manufacturer();
+    }
 }
